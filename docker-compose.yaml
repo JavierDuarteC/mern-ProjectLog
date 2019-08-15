@@ -3,6 +3,8 @@ version: "2"
 services:
   mongodb:
     image: "mongo"
+    volumes:
+      - data-volume:/data/db
     ports: 
       - '27017:27017'
   
@@ -25,3 +27,6 @@ services:
       - '3000:3000'
     depends_on: 
       - backend
+      
+volumes:
+  data-volume:
