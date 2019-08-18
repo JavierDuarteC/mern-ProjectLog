@@ -65,6 +65,7 @@ export default class Login extends Component {
                         block
                         bssize="large"
                         type="submit"
+                        disabled={this.isLoading}
                         onClick={this.onSingOut}>
                         Logout
                     </Button>

@@ -47,7 +47,7 @@ router.route('/signup').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/signin').post((req,res)=>{
+router.route('/signin').post((req, res) => {
     const { body } = req
     let {
         username,
@@ -73,81 +73,100 @@ router.route('/signin').post((req,res)=>{
     User.find({
         username: username
     })
-    .then((users)=>{
-        //invalid credentials
-        if(users.length != 1){
-            return res.send({
-                success:false,
-                message: 'Error: Invalid username.'
-            })
-        }
-
-        const user = users[0]
-        if(!user.validPassword(password)){
-            return res.send({
-                success:false,
-                message: 'Error: Invalid password.'
-            })
-        }
-
-        //valid credentials
-        const userSession = new UserSession()
-        userSession.userId = user._id
-        userSession.save()
-            .then((doc)=>{
+        .then((users) => {
+            //invalid credentials
+            if (users.length != 1) {
                 return res.send({
-                    success:true,
-                    message: 'Valid sign in.',
-                    token:doc._id
+                    success: false,
+                    message: 'Error: Invalid username.'
                 })
-            })
-            .catch(err => res.status(400).json('Error: ' + err))
+            }
 
-        
-    })
-    .catch(err => res.status(400).json('Error: ' + err))
+            const user = users[0]
+            if (!user.validPassword(password)) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Invalid password.'
+                })
+            }
+
+            //valid credentials
+            UserSession.find({
+                userId: user._id,
+                isDeleted: false
+            })
+                .then((sessions) => {
+                    if (sessions.length > 1) {
+                        return res.send({
+                            success: false,
+                            message: 'Error: Invalid Session.'
+                        })
+                    } else if (sessions.length == 1) {
+                        return res.send({
+                            success: true,
+                            message: 'Valid sign in.',
+                            token: sessions[0]._id
+                        })
+                    } else {
+                        const userSession = new UserSession()
+                        userSession.userId = user._id
+                        userSession.save()
+                            .then((doc) => {
+                                return res.send({
+                                    success: true,
+                                    message: 'Valid sign in.',
+                                    token: doc._id
+                                })
+                            })
+                            .catch(err => res.status(400).json('Error: ' + err))
+                    }
+                })
+                .catch(err => res.status(400).json('Error: ' + err))
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err))
 
 })
 
-router.route('/verify').get((req,res)=>{
-    const {query} = req
-    const {token} = query
+router.route('/verify').get((req, res) => {
+    const { query } = req
+    const { token } = query
 
     UserSession.find({
         _id: token,
         isDeleted: false
     })
-        .then((sessions)=>{
-            if(sessions.length != 1){
+        .then((sessions) => {
+            if (sessions.length != 1) {
                 return res.send({
-                    success:false,
+                    success: false,
                     message: 'Error: Invalid Token.'
                 })
             }
 
             return res.send({
-                success:true,
+                success: true,
                 message: 'Token is good.'
             })
         })
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/logout').get((req,res)=>{
-    const {query} = req
-    const {token} = query
+router.route('/logout').get((req, res) => {
+    const { query } = req
+    const { token } = query
 
     UserSession.findOneAndUpdate({
         _id: token,
         isDeleted: false
-    },{
-        $set:{
-            isDeleted: true
-        },
-    })
-        .then(()=>{
+    }, {
+            $set: {
+                isDeleted: true
+            },
+        })
+        .then(() => {
             return res.send({
-                success:true,
+                success: true,
                 message: 'Session closed.'
             })
         })

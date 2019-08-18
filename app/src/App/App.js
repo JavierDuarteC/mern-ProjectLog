@@ -75,13 +75,12 @@ class App extends Component {
 
   render() {
 
-    if (this.state.isLoading && this.state.token) {
+    if (this.state.isLoading) {
       return (<div className="container">Loading...</div>)
-    } else {
+    } else if (!this.state.token) {
       return (
         <Router>
           <div className="container">
-            <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout" component={Logout} />
@@ -92,6 +91,19 @@ class App extends Component {
           </div>
         </Router>
       )
+    } else {
+      return (<Router>
+        <div className="container">
+          <Navbar />
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/logout" component={Logout} />
+          {/* <Route exact path="/register" component={Register} />
+          <Switch>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          </Switch> */}
+        </div>
+      </Router>)
     }
   }
 }

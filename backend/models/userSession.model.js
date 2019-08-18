@@ -7,14 +7,12 @@ const userSessionSchema = new Schema({
         type: String,
         default: -1
     },
-    timestamp: {
-        type: Date,
-        default: Date.now()
-    },
     isDeleted: {
         type: Boolean,
         default:false
     }
+},{
+    timestamps: true
 })
 
 const UserSession = mongoose.model('UserSession', userSessionSchema)
