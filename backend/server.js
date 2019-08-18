@@ -21,11 +21,11 @@ connection.once('open',()=>{
 
 const logsRouter = require('./routes/logs')
 const usersRouter = require('./routes/users')
-const signinRouter = require('./routes/signin')
+const authRouter = require('./routes/auth')
 
 app.use('./logs',logsRouter)
 app.use('/users', usersRouter)
-app.use('/account', signinRouter)
+app.use('/account', authRouter)
 
 app.listen(port,()=>{
     console.log(`Server is running on port: ${port}`)

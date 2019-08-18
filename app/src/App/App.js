@@ -15,6 +15,7 @@ import Navbar from "../components/layout/navbar";
 import Landing from "../components/layout/home";
 //import Register from "./components/auth/Register";
 import Login from "../components/auth/login";
+import Logout from "../components/auth/logout";
 //import PrivateRoute from "./components/private-route/PrivateRoute";
 //import Dashboard from "./components/dashboard/Dashboard";
 
@@ -35,7 +36,7 @@ class App extends Component {
   verifyToken() {
     if (window.location != 'http://localhost:3000/login') {
       const obj = getFromStorage('the_main_app')
-      console.log(obj)
+
       if (obj && obj.token) {
         const { token } = obj
         //verify token
@@ -52,15 +53,19 @@ class App extends Component {
                 isLoading: false
               })
             }
+          }).catch(err => {
+            console.log(err)
           })
       } else {
         window.location = "/login"
       }
-      
+
     }
-    this.setState({
-      isLoading: false
-    })
+    if (this.state.isLoading) {
+      this.setState({
+        isLoading: false
+      })
+    }
   }
 
   componentDidMount() {
@@ -70,7 +75,7 @@ class App extends Component {
 
   render() {
 
-    if (this.state.isLoading) {
+    if (this.state.isLoading && this.state.token) {
       return (<div className="container">Loading...</div>)
     } else {
       return (
@@ -79,6 +84,7 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/logout" component={Logout} />
             {/* <Route exact path="/register" component={Register} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
