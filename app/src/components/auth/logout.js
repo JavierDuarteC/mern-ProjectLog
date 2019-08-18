@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import './login.css';
 import {
     getFromStorage,
@@ -58,7 +58,7 @@ export default class Login extends Component {
         return (
             <div className="Login">
                 {
-                    (this.state.singnOutError) ? (<div><p>{this.state.singnOutError}</p></div>) : (null)
+                    (this.state.singnOutError) ? (<div className="text-danger"><p>{this.state.singnOutError}</p></div>) : (null)
                 }
                 <form onSubmit={this.handleSubmit}>
                     <Button

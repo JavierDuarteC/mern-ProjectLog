@@ -128,6 +128,55 @@ router.route('/signin').post((req, res) => {
 
 })
 
+router.route('/username').get((req, res) => {
+    const { query } = req
+    const { token } = query
+
+    if (!token) {
+        return res.send({
+            success: false,
+            message: 'Error: token cannot be blank.'
+        })
+    }
+
+    UserSession.find({
+        _id: token,
+        isDeleted: false
+    })
+        .then((sessions) => {
+            if (sessions.length != 1) {
+                return res.send({
+                    success: false,
+                    message: 'Error: Invalid Token.'
+                })
+            }
+            const session = sessions[0]
+            User.find({
+                _id: session.userId
+            })
+                .then((users) => {
+                    //invalid credentials
+                    if (users.length != 1) {
+                        return res.send({
+                            success: false,
+                            message: 'Error: Invalid session user ID.'
+                        })
+                    }
+                    const user = users[0]
+                    return res.send({
+                        success: true,
+                        message: 'Username found.',
+                        username: user.username
+                    })
+
+                })
+                .catch(err => res.status(400).json('Error: ' + err))
+
+        })
+        .catch(err => res.status(400).json('Error: ' + err))
+
+})
+
 router.route('/verify').get((req, res) => {
     const { query } = req
     const { token } = query

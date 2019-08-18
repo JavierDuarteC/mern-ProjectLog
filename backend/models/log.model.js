@@ -4,7 +4,11 @@ const Schema = mongoose.Schema
 
 const logSchema = new Schema(
     {
-        username:{
+        fromUsername:{
+            type: String,
+            required: true
+        },
+        toUsername:{
             type: String,
             required: true
         },

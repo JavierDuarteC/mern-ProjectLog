@@ -23,7 +23,7 @@ const logsRouter = require('./routes/logs')
 const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auth')
 
-app.use('./logs',logsRouter)
+app.use('/logs',logsRouter)
 app.use('/users', usersRouter)
 app.use('/account', authRouter)
 

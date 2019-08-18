@@ -66,7 +66,7 @@ export default class Login extends Component {
         return (
             <div className="Login">
                 {
-                    (this.state.singnInError) ? (<div><p>{this.state.singnInError}</p></div>) : (null)
+                    (this.state.singnInError) ? (<div className="text-danger"><p>{this.state.singnInError}</p></div>) : (null)
                 }
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId="username" bssize="large">

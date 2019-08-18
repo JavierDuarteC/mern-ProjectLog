@@ -7,6 +7,8 @@ services:
       - data-volume:/data/db
     ports: 
       - '27017:27017'
+    networks:
+      - webnet
   
   backend:
     build: ./backend/
@@ -17,6 +19,8 @@ services:
       - '5000:5000'
     depends_on: 
       - mongodb
+    networks:
+      - webnet
 
   app:
     build: ./app/
@@ -27,6 +31,10 @@ services:
       - '3000:3000'
     depends_on: 
       - backend
+    networks:
+      - webnet
       
 volumes:
   data-volume:
+networks:
+  webnet:

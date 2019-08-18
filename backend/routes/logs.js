@@ -8,16 +8,44 @@ router.route('/').get((req,res)=>{
 })
 
 router.route('/add').post((req,res)=>{
-    const username = req.body.username
+    const fromUsername = req.body.fromUsername
+    const toUsername = req.body.toUsername
     const content = req.body.content
 
+    if(!fromUsername){
+        return res.send({
+            success: false,
+            message: 'From username cannot be blank.'
+        })
+    }
+
+    if (!toUsername) {
+        return res.send({
+            success: false,
+            message: 'To username cannot be blank.'
+        })
+    }
+
+    if (!content) {
+        return res.send({
+            success: false,
+            message: 'Content cannot be blank.'
+        })
+    }
+
     const newLog = new Log({
-        username,
+        fromUsername,
+        toUsername,
         content
     })
 
     newLog.save()
-        .then(()=>res.json('Log added!'))
+        .then(()=>{
+            return res.send({
+                success: true,
+                message: 'Log sent.'
+            })
+        })
         .catch(err=>res.status(400).json('Error: '+err))
 })
 
