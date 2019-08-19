@@ -32,7 +32,7 @@ export default class Login extends Component {
         if (obj && obj.token) {
             const { token } = obj
 
-            axios.get('http://localhost::5000/account/logout?token=' + token)
+            axios.get('http://localhost:5000/account/logout?token=' + token)
                 .then(res => {
 
                     this.setState({

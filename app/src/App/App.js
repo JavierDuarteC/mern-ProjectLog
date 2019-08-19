@@ -16,6 +16,8 @@ import Landing from "../components/layout/home";
 //import Register from "./components/auth/Register";
 import Login from "../components/auth/login";
 import Logout from "../components/auth/logout";
+import Wall from "../components/views/log-list";
+import Sent from "../components/views/sent-list";
 import Create from "../components/views/create-log";
 //import Dashboard from "./components/dashboard/Dashboard";
 
@@ -40,7 +42,7 @@ class App extends Component {
       if (obj && obj.token) {
         const { token } = obj
         //verify token
-        axios.get('http://localhost::5000/account/verify?token=' + token)
+        axios.get('http://localhost:5000/account/verify?token=' + token)
           .then(res => {
             if (res.data.success) {
               this.setState({
@@ -82,7 +84,6 @@ class App extends Component {
         <Router>
           <div className="container">
             <Route exact path="/" component={Landing} />
-            <Route exact path="/create" component={Create} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout" component={Logout} />
             {/* <Route exact path="/register" component={Register} />
@@ -97,6 +98,8 @@ class App extends Component {
         <div className="container">
           <Navbar />
           <Route exact path="/" component={Landing} />
+          <Route exact path="/wall" component={Wall} />
+          <Route exact path="/sent" component={Sent} />
           <Route exact path="/create" component={Create} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/logout" component={Logout} />

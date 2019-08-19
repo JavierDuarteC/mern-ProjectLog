@@ -24,7 +24,7 @@ export default class CreateLog extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost::5000/users/')
+        axios.get('http://localhost:5000/users/')
             .then(res => {
                 if (res.data.length > 0) {
                     this.setState({
@@ -38,10 +38,9 @@ export default class CreateLog extends Component {
 
         if (obj && obj.token) {
             const { token } = obj
-            axios.get('http://localhost::5000/account/username?token=' + token)
+            axios.get('http://localhost:5000/account/username?token=' + token)
                 .then(res => {
                     if (res.data.success) {
-                        console.log(res.data.username)
                         this.setState({
                             fromUsername: res.data.username,
                             isLoading: false
@@ -83,7 +82,7 @@ export default class CreateLog extends Component {
             content: this.state.content,
         }
 
-        axios.post('http://localhost::5000/logs/add', log)
+        axios.post('http://localhost:5000/logs/add', log)
             .then(res => {
                 if (res.data.success) {
                     window.location = "/sent"
@@ -102,7 +101,9 @@ export default class CreateLog extends Component {
         } else {
             return (
                 <div >
+                    <br/>
                     <h3 >Create New Message</h3>
+                    <br/>
                     {
                         (this.state.sendError) ? (<div className="text-danger"><p>{this.state.sendError}</p></div>) : (null)
                     }
