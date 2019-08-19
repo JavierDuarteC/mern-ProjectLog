@@ -34,13 +34,13 @@ class App extends Component {
   }
 
   verifyToken() {
-    if (window.location != 'http://52.23.159.97:3000/login') {
+    if (window.location != 'http://localhost:3000/login') {
       const obj = getFromStorage('the_main_app')
 
       if (obj && obj.token) {
         const { token } = obj
         //verify token
-        axios.get('http://52.23.159.97:5000/account/verify?token=' + token)
+        axios.get('http://localhost::5000/account/verify?token=' + token)
           .then(res => {
             if (res.data.success) {
               this.setState({
