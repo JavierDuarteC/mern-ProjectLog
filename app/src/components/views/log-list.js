@@ -34,7 +34,7 @@ export default class LogList extends Component {
 
         if (obj && obj.token) {
             const { token } = obj
-            axios.get('http://localhost:5000/account/verify?token=' + token)
+            axios.get('http://52.23.159.97:5000/account/verify?token=' + token)
                 .then(res => {
                     if (!res.data.success) {
                         setInStorage('the_main_app', {})
@@ -49,7 +49,7 @@ export default class LogList extends Component {
                     console.log(err)
                 })
 
-            axios.get('http://localhost:5000/logs/in?token=' + token)
+            axios.get('http://52.23.159.97:5000/logs/in?token=' + token)
                 .then(res => {
                     this.setState({
                         logs: res.data,
