@@ -37,7 +37,7 @@ export default class SentList extends Component {
 
         if (obj && obj.token) {
             const { token } = obj
-            axios.get('http://52.23.159.97:5000/account/verify?token=' + token)
+            axios.get('http://localhost:5000/account/verify?token=' + token)
                 .then(res => {
                     if (!res.data.success) {
                         setInStorage('the_main_app', {})
@@ -52,7 +52,7 @@ export default class SentList extends Component {
                     console.log(err)
                 })
 
-            axios.get('http://52.23.159.97:5000/logs/out?token=' + token)
+            axios.get('http://localhost:5000/logs/out?token=' + token)
                 .then(res => {
                     this.setState({
                         logs: res.data,

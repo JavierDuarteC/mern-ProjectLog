@@ -45,7 +45,7 @@ export default class Login extends Component {
             password: this.state.password
         }
 
-        axios.post('http://52.23.159.97:5000/account/signin',userLogin)
+        axios.post('http://localhost:5000/account/signin',userLogin)
         .then(res=>{
             this.setState({
                 singnInError: res.data.message,
